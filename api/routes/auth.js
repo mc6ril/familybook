@@ -14,9 +14,11 @@ router.post("/login", async (req, res) => {
       const newHash = SHA256(req.body.password + findMail.salt).toString(encBase64);
       if (newHash === findMail.hash) {
         res.status(200).json({
-          _id: findMail._id,
-          token: findMail.token,
-          fullName: findMail.fullName,
+          data: {
+            _id: findMail._id,
+            token: findMail.token,
+            fullName: findMail.fullName,
+          },
         });
       } else {
         res.status(401).json({ message: "Unauthorized. Please verify your email or password." });
