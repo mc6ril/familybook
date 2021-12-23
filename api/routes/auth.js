@@ -15,7 +15,6 @@ router.post("/login", async (req, res) => {
       if (newHash === findMail.hash) {
         res.status(200).json({
           data: {
-            _id: findMail._id,
             token: findMail.token,
             fullName: findMail.fullName,
           },
@@ -66,7 +65,7 @@ router.post("/signup", async (req, res) => {
         result: {
           user: user.fullName,
           email: user.email,
-          id: user._id,
+          token: user.token,
         },
       });
     }
