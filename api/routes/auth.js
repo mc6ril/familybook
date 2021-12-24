@@ -74,7 +74,7 @@ router.post("/signup", async (req, res) => {
   }
 });
 
-router.post("/new-password/:email", async (req, res) => {
+router.post("/new-password", async (req, res) => {
   try {
     const checkMail = RegExp(req.body.email, "i");
     const userToUpdate = await User.findOne({ email: checkMail });
