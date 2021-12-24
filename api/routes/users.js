@@ -17,7 +17,7 @@ router.get("/find/all", isAuthenticated, async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 });
-router.get("/find/:email", isAuthenticated, async (req, res) => {
+router.get("/find/email/:email", isAuthenticated, async (req, res) => {
   try {
     const regex = new RegExp(req.params.email, "i");
     const user = await User.findOne({ email: regex }).select(["-token", "-hash", "-salt", "-_id", "-updatedAt", "-__v"]);
@@ -32,7 +32,7 @@ router.get("/find/:email", isAuthenticated, async (req, res) => {
   }
 });
 
-router.get("/find/:name", isAuthenticated, async (req, res) => {
+router.get("/find/name/:name", isAuthenticated, async (req, res) => {
   try {
     const newStr = req.params.name.split(" ").reverse().join(" ");
     const regex1 = new RegExp(req.params.name, "gi");
