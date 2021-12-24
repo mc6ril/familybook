@@ -76,11 +76,11 @@ router.post("/signup", async (req, res) => {
 
 router.post("/new-password/:email", async (req, res) => {
   try {
-    const checkMail = RegExp(req.params.email, "i");
+    const checkMail = RegExp(req.body.email, "i");
     const userToUpdate = await User.findOne({ email: checkMail });
     if (userToUpdate) {
       const newSalt = uid2(16);
-      const newHash = SHA256(req.fields.newPassword + newSalt).toString(encBase64);
+      const newHash = SHA256(req.body.newPassword + newSalt).toString(encBase64);
       const newToken = uid2(64);
 
       userToUpdate.hash = newHash;
@@ -94,7 +94,7 @@ router.post("/new-password/:email", async (req, res) => {
         result: userToUpdate,
       });
     } else {
-      res.status(404).json({ message: `This user has not been found, please verify the email : ${req.params.email}` });
+      res.status(404).json({ message: `This user has not been found, please verify the email : ${req.body.email}` });
     }
   } catch (error) {
     res.status(400).json({ message: error.message });
