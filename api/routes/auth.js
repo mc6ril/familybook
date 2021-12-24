@@ -74,4 +74,31 @@ router.post("/signup", async (req, res) => {
   }
 });
 
+router.post("/new-password/:email", async (req, res) => {
+  try {
+    const checkMail = RegExp(req.params.email, "i");
+    const userToUpdate = await User.findOne({ email: checkMail });
+    if (userToUpdate) {
+      const newSalt = uid2(16);
+      const newHash = SHA256(req.fields.newPassword + newSalt).toString(encBase64);
+      const newToken = uid2(64);
+
+      userToUpdate.hash = newHash;
+      userToUpdate.salt = newSalt;
+      userToUpdate.token = newToken;
+
+      await userToUpdate.save();
+
+      res.status(200).json({
+        message: "Your profile has been well updated",
+        result: userToUpdate,
+      });
+    } else {
+      res.status(404).json({ message: `This user has not been found, please verify the email : ${req.params.email}` });
+    }
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
 module.exports = router;
