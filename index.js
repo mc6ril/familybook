@@ -5,6 +5,7 @@ const cookieParser = require("cookie-parser");
 
 const app = express();
 const corsOption = {
+  wildcard: "*",
   origin: process.env.CLIENT_URL,
   credential: true,
   allowedHeaders: ["sessionId", "Content-Type"],
