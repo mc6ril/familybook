@@ -7,7 +7,7 @@ const app = express();
 const corsOption = {
   wildcard: "*",
   origin: process.env.CLIENT_URL,
-  // credential: true,
+  credential: true,
   allowedHeaders: ["Authorization", "Origin", "sessionId", "Content-Type", "Accept", "x-requested-with"],
   exposedHeaders: ["sessionId"],
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
