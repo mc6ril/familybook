@@ -8,7 +8,7 @@ const corsOption = {
   wildcard: "*",
   origin: process.env.CLIENT_URL,
   credential: true,
-  allowedHeaders: ["sessionId", "Content-Type"],
+  allowedHeaders: ["Authorization", "sessionId", "Content-Type"],
   exposedHeaders: ["sessionId"],
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   preflightContinue: false,
