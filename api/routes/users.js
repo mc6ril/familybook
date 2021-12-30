@@ -31,6 +31,19 @@ router.get("/find/email/:email", isAuthenticated, async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 });
+router.get("/find/id/:id", isAuthenticated, async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id).select(["-token", "-hash", "-salt", "-_id", "-updatedAt", "-__v"]);
+
+    if (user) {
+      res.status(200).json({ message: "The user has been found", result: user });
+    } else {
+      res.status(404).json({ message: `This user has not been found, please verify the email adress ${req.params.id} `, result: [] });
+    }
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
 
 router.get("/find/name/:name", isAuthenticated, async (req, res) => {
   try {
