@@ -17,6 +17,8 @@ router.post("/login", async (req, res) => {
           data: {
             token: findMail.token,
             fullName: findMail.fullName,
+            avatar: findMail.avatar,
+            id: findMail._id,
           },
         });
       } else {
@@ -66,6 +68,7 @@ router.post("/signup", async (req, res) => {
           user: user.fullName,
           email: user.email,
           token: user.token,
+          id: user._id,
         },
       });
     }
