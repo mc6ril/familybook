@@ -68,6 +68,7 @@ router.get("/find/name/:name", isAuthenticated, async (req, res) => {
 router.put("/update", isAuthenticated, async (req, res) => {
   try {
     const userToUpdate = await User.findById(req.user._id);
+    console.log(userToUpdate);
     const { lastName, firstName, email, gender, bio, phone, adress, cp, city, birthday, newPassword } = req.body;
 
     if (userToUpdate) {
