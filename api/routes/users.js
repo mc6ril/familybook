@@ -67,9 +67,9 @@ router.get("/find/name/:name", isAuthenticated, async (req, res) => {
 
 router.post("/update", isAuthenticated, async (req, res) => {
   try {
-    const userToUpdate = await User.findById(req.user._id);
-    console.log(userToUpdate);
-    const { lastName, firstName, email, gender, bio, phone, adress, cp, city, birthday, newPassword } = req.body;
+    const userToUpdate = await User.findById(req.user._id).select(["-token", "-hash", "-salt", "-_id", "-__v"]);
+
+    const { lastName, firstName, email, gender, bio, phone, adress, cp, city, birthday, newPassword, avatar } = req.body;
 
     if (userToUpdate) {
       if (lastName) {
@@ -105,15 +105,10 @@ router.post("/update", isAuthenticated, async (req, res) => {
       if (city) {
         userToUpdate.informations.city = city;
       }
-      if (req.body.avatar) {
-        userToUpdate.avatar = req.body.avatar;
-      }
-
-      if (req.files.avatar) {
-        if (req.files.avatar.mimetype !== "image/jpg" && req.files.avatar.mimetype !== "image/png" && req.files.avatar.mimetype !== "image/jpeg")
-          throw Error("invalid file");
+      if (avatar) {
+        if (avatar.mimetype !== "image/jpg" && avatar.mimetype !== "image/png" && avatar.mimetype !== "image/jpeg") throw Error("invalid file");
         await cloudinary.api.delete_all_resources(`/family-network/${userToUpdate._id}`);
-        const response = await cloudinary.uploader.upload(req.files.avatar.tempFilePath, {
+        const response = await cloudinary.uploader.upload(avatar.tempFilePath, {
           folder: `/family-network/${req.user._id}`,
         });
         userToUpdate.avatar = response.secure_url;
