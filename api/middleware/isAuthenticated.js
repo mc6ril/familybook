@@ -1,6 +1,7 @@
 const User = require("../models/User");
 
 const isAuthenticated = async (req, res, next) => {
+  console.log("ici", req.headers);
   if (req.headers.authorization) {
     //find user in database
     const user = await User.findOne({
